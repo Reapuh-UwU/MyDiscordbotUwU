@@ -8,10 +8,9 @@ from ping3 import ping
 import asyncio
 
 
-TOKEN = ''
-
-
-client = commands.Bot(command_prefix = '!',case_insensitive=True)
+TOKEN = 'OTEzMjYyODI0MDU3MzUyMjIy.GP_KxY.mzgaENcgXRX9m6yhA12AQTMHSN6IuQeNlLaUF8'
+intents = discord.Intents.all()
+client = commands.Bot(command_prefix = '!',case_insensitive=True,intents=intents)
 
 @client.event
 async def on_ready():
@@ -87,13 +86,39 @@ async def ping(message):
 
 #MCstats#
 @client.command()
-async def mcstat(message,IP):
+async def mcstatus(message,IP):
     response = requests.get('https://api.mcsrvstat.us/2/'+IP)
     status = response.json()
-    await message.send('hostname: '+status['hostname'])
-    await message.send(status['online'])
-    await message.send('ip:'+status['ip'])
-    await message.send(status['players'])
+    if status['online'] == True:
+       x = 'Online'
+    else:
+        x = 'Offline'
+
+    #turning things to string UwU
+    player_online=str(status['players']['online'])
+    player_max=str(status['players']['max'])
+    player_ratio=player_online + '/' + player_max
+
+    embed = discord.Embed(
+        title='Minecraft server',
+        colour=discord.Colour(0xd88c54)
+    )
+    embed.add_field(
+        name='Minecraft Server IP',
+        value=IP,
+        inline=False
+    )
+    embed.add_field(
+        name='Status',
+        value=x,
+        inline=False
+    )
+    embed.add_field(
+        name='Player count',
+        value=player_ratio,
+        inline=False
+    )
+    await message.send(embed=embed)
 
 #XKCD SECTIONS#
 @client.command()
