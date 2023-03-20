@@ -8,7 +8,7 @@ from ping3 import ping
 import asyncio
 
 
-TOKEN = ''
+TOKEN = 'OTEzMjYyODI0MDU3MzUyMjIy.GFSjMA.KeI_0pZoiuCooajbgpJpV21oKY4H2O97wb2Fm4'
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = '!',case_insensitive=True,intents=intents)
 
@@ -89,6 +89,7 @@ async def ping(message):
 async def mcstatus(message,IP):
     response = requests.get('https://api.mcsrvstat.us/2/'+IP)
     status = response.json()
+    await message.send(status)
     if status['online'] == True:
        x = 'Online'
     else:
@@ -109,6 +110,11 @@ async def mcstatus(message,IP):
         inline=False
     )
     embed.add_field(
+        name='Server version',
+        value=status['version'],
+        inline=False
+        )
+    embed.add_field(
         name='Status',
         value=x,
         inline=False
@@ -118,6 +124,16 @@ async def mcstatus(message,IP):
         value=player_ratio,
         inline=False
     )
+    embed.add_field(
+        name='Player list',
+        value=status['players']['list'],
+        inline=False
+    )
+    embed.add_field(
+        name='Sofrware version',
+        value=status['software'],
+        inline=False
+        )
     await message.send(embed=embed)
 
 #XKCD SECTIONS#
