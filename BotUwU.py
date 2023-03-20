@@ -6,9 +6,9 @@ import requests
 from discord.ext import commands
 from ping3 import ping
 import asyncio
+import botToken
 
-
-TOKEN = ''
+TOKEN = botToken.myToken
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = '!',case_insensitive=True,intents=intents)
 
