@@ -8,7 +8,7 @@ from ping3 import ping
 import asyncio
 
 
-TOKEN = 'OTEzMjYyODI0MDU3MzUyMjIy.GFSjMA.KeI_0pZoiuCooajbgpJpV21oKY4H2O97wb2Fm4'
+TOKEN = ''
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = '!',case_insensitive=True,intents=intents)
 
