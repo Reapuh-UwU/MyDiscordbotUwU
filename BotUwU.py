@@ -39,7 +39,7 @@ async def help(message):
     )
     embed.add_field(
         name='!rng',
-        value='Gives a random number with the given range that the user gives. Example !rng 0 10',
+        value='Gives a random number with the given range that is given by the user. Example !rng 0 10',
         inline=False
     )
     embed.add_field(
@@ -82,14 +82,13 @@ async def rng(message,number1,number2):
 
 @client.command()
 async def ping(message):
-    await message.send(f'HA! GET PONGED!!. heres your latency {round(client.latency * 1000)}ms') 
+    await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms') 
 
 #MCstats#
 @client.command()
 async def mcstatus(message,IP):
     response = requests.get('https://api.mcsrvstat.us/2/'+IP)
     status = response.json()
-    await message.send(status)
     if status['online'] == True:
        x = 'Online'
     else:
@@ -100,15 +99,18 @@ async def mcstatus(message,IP):
     player_max=str(status['players']['max'])
     player_ratio=player_online + '/' + player_max
 
+    #player check
     embed = discord.Embed(
         title='Minecraft server',
         colour=discord.Colour(0xd88c54)
     )
+    
     embed.add_field(
         name='Minecraft Server IP',
         value=IP,
         inline=False
     )
+
     embed.add_field(
         name='Server version',
         value=status['version'],
@@ -119,16 +121,25 @@ async def mcstatus(message,IP):
         value=x,
         inline=False
     )
-    embed.add_field(
-        name='Player count',
-        value=player_ratio,
-        inline=False
-    )
-    embed.add_field(
-        name='Player list',
-        value=status['players']['list'],
-        inline=False
-    )
+
+    if int(player_online) > 0:
+        embed.add_field(
+            name='Player list',
+            value=status['players']['list'],
+            inline=False
+        )
+        embed.add_field(
+            name='Player count',
+            value=player_ratio,
+            inline=False
+        )
+    else:
+        embed.add_field(
+            name='Player count',
+            value=player_ratio,
+            inline=False
+        )
+
     embed.add_field(
         name='Sofrware version',
         value=status['software'],
