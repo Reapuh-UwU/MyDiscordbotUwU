@@ -1,11 +1,8 @@
 from urllib import response
 import discord
 import random
-from pandas import describe_option
 import requests
 from discord.ext import commands
-from ping3 import ping
-import asyncio
 import botToken
 
 TOKEN = botToken.myToken
@@ -68,7 +65,6 @@ async def help(message):
 #message commands/FUN COMMANDS!#
 @client.command()
 async def hello(message):
-
     username = message.author
     await message.send(f'Hello {username}!')
 
@@ -85,6 +81,7 @@ async def rng(message,number1,number2):
 async def ping(message):
     # await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms') 
     await message.channel.send('pong')
+    
 #MCstats#
 @client.command()
 async def mcstatus(message,IP):
