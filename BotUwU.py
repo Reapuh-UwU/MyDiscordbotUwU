@@ -48,7 +48,7 @@ async def help(message):
         inline=False
     )
     embed.add_field(
-        name='!mcstat',
+        name='!mcstatus',
         value='Gives the hostname, status, ip and a max and current player count',
         inline=False
     )
@@ -80,73 +80,73 @@ async def rng(message,number1,number2):
     response = (f'This is your random number: **``{result}``**!')
     await message.send(response)
 
+#ping test
 @client.command()
 async def ping(message):
-    await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms') 
-
+    # await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms') 
+    await message.channel.send('pong')
 #MCstats#
 @client.command()
 async def mcstatus(message,IP):
     response = requests.get('https://api.mcsrvstat.us/2/'+IP)
     status = response.json()
     if status['online'] == True:
-       x = 'Online'
+        x = 'Online'
+        #turning things to string UwU
+        player_online=str(status['players']['online'])
+        player_max=str(status['players']['max'])
+        player_ratio=player_online + '/' + player_max
+
+        #player check
+        embed = discord.Embed(
+            title='Minecraft server',
+            colour=discord.Colour(0xd88c54)
+        )
+
+        embed.add_field(
+            name='Minecraft Server IP',
+            value=IP,
+            inline=False
+        )
+
+        embed.add_field(
+            name='Server version',
+            value=status['version'],
+            inline=False
+            )
+        embed.add_field(
+            name='Status',
+            value=x,
+            inline=False
+        )
+
+        if int(player_online) > 0:
+            embed.add_field(
+                name='Player list',
+                value=status['players']['list'],
+                inline=False
+            )
+            embed.add_field(
+                name='Player count',
+                value=player_ratio,
+                inline=False
+            )
+        else:
+            embed.add_field(
+                name='Player count',
+                value=player_ratio,
+                inline=False
+            )
+
+        embed.add_field(
+            name='Sofrware version',
+            value=status['software'],
+            inline=False
+            )
+        await message.send(embed=embed)
     else:
         x = 'Offline'
-
-    #turning things to string UwU
-    player_online=str(status['players']['online'])
-    player_max=str(status['players']['max'])
-    player_ratio=player_online + '/' + player_max
-
-    #player check
-    embed = discord.Embed(
-        title='Minecraft server',
-        colour=discord.Colour(0xd88c54)
-    )
-    
-    embed.add_field(
-        name='Minecraft Server IP',
-        value=IP,
-        inline=False
-    )
-
-    embed.add_field(
-        name='Server version',
-        value=status['version'],
-        inline=False
-        )
-    embed.add_field(
-        name='Status',
-        value=x,
-        inline=False
-    )
-
-    if int(player_online) > 0:
-        embed.add_field(
-            name='Player list',
-            value=status['players']['list'],
-            inline=False
-        )
-        embed.add_field(
-            name='Player count',
-            value=player_ratio,
-            inline=False
-        )
-    else:
-        embed.add_field(
-            name='Player count',
-            value=player_ratio,
-            inline=False
-        )
-
-    embed.add_field(
-        name='Sofrware version',
-        value=status['software'],
-        inline=False
-        )
-    await message.send(embed=embed)
-
+        await message.send('The server your trying to check is unavailable. Please check if the type the correct server address/ip or/and its online.')
 #XKCD SECTIONS#
 @client.command()
 async def xkcd(message,number):
