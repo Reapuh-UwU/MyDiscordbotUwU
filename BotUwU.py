@@ -5,6 +5,11 @@ import requests
 from discord.ext import commands
 import botToken
 
+#xkcd checker
+checker = requests.get('https://xkcd.com/info.0.json')
+status_checker = checker.json()
+limit = status_checker['num']
+
 TOKEN = botToken.myToken
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = '!',case_insensitive=True,intents=intents)
@@ -46,7 +51,7 @@ async def help(message):
     )
     embed.add_field(
         name='!mcstatus',
-        value='Gives the hostname, status, ip and a max and current player count',
+        value='Gives the hostname, status, ip, max and current player count',
         inline=False
     )
     embed.add_field(
@@ -147,13 +152,16 @@ async def mcstatus(message,IP):
 #XKCD SECTIONS#
 @client.command()
 async def xkcd(message,number):
-    response = requests.get('https://xkcd.com/'+number+'/info.0.json')
-    status = response.json()
-    await message.send(status['img'])
+    if int(number) <= l imit:
+        response = requests.get('https://xkcd.com/'+ number +'/info.0.json')
+        status = response.json()
+        await message.send(status['img'])
+    else:
+        await message.send('the number you typed is not not available, make sure the number is between 1 to ' + str(limit) + '.')
 
 @client.command()
 async def rngxkcd(message):
-    rng = random.randrange(1,2582)
+    rng = random.randrange(1,limit)
     response = requests.get('https://xkcd.com/'+str(rng)+'/info.0.json')
     status = response.json()
     await message.send(status['img'])
