@@ -84,8 +84,7 @@ async def rng(message,number1,number2):
 #ping test
 @client.command()
 async def ping(message):
-    # await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms') 
-    await message.channel.send('pong')
+    await message.send(f'HA! GET PONGED!!. bot latency is {round(client.latency * 1000)}ms')
     
 #MCstats#
 @client.command()
