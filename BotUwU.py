@@ -151,7 +151,7 @@ async def mcstatus(message,IP):
 #XKCD SECTIONS#
 @client.command()
 async def xkcd(message,number):
-    if int(number) <= l imit:
+    if int(number) <= l limit:
         response = requests.get('https://xkcd.com/'+ number +'/info.0.json')
         status = response.json()
         await message.send(status['img'])
